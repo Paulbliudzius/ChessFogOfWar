@@ -1,8 +1,7 @@
 ﻿using System;
 using UnityEngine;
-using ChessPiece;
-
-namespace ChessPlayer
+using Pieces;
+namespace ChessPiece
 {
 	public class Player
 	{

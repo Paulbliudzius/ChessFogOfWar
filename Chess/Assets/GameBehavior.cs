@@ -22,18 +22,22 @@ public class GameBehavior : MonoBehaviour {
 	public GameObject king;
 	public GameObject queen;
 
-	//public GameObject[][] gamePieces;
-	
 	private GameObject[][] gameSpaces;
 
-//	private Transform[][] gameLights;
+	private Piece[][] gamePieces;
 
 	private Player player; 
 
 	private Player opponent;
+
+	private int firstClickX;
+	private int firstClickZ;
 	
 	// Use this for initialization
-	void Start () {
+	void Start () 
+	{
+		firstClickX = -1;
+		firstClickZ = -1;
 		player = new Player ();
 		opponent = new Player ();
 
@@ -47,13 +51,25 @@ public class GameBehavior : MonoBehaviour {
 			new GameObject[GAMESIZE],
 			new GameObject[GAMESIZE]
 		};
+		gamePieces=new Piece[][]{
+			new Piece[GAMESIZE],
+			new Piece[GAMESIZE],
+			new Piece[GAMESIZE],
+			new Piece[GAMESIZE],
+			new Piece[GAMESIZE],
+			new Piece[GAMESIZE],
+			new Piece[GAMESIZE],
+			new Piece[GAMESIZE]
+		};
 
 		bool odd = true;
-		for (int z=0; z<GAMESIZE; z++) {
-			for (int x=0; x<GAMESIZE; x++) {
+		for (int z=0; z<GAMESIZE; z++) 
+		{
+			for (int x=0; x<GAMESIZE; x++) 
+			{
 				if(z<2){
 					GameObject tempObject;
-					string tempString = "z:"+z+" x:"+x;
+					string tempString = "Piece"+x+","+z;
 					Piece tempPiece;
 					if(z==1)
 					{
@@ -91,9 +107,10 @@ public class GameBehavior : MonoBehaviour {
 						tempPiece = new PawnPiece(tempString,tempObject);
 					}
 					player.addPiece(tempPiece);
+					gamePieces[x][z]=tempPiece;
 				}else if(z>=GAMESIZE-2){
 					GameObject tempObject;
-					string tempString = "z:"+z+" x:"+x;
+					string tempString = "Piece"+x+","+z;
 					Piece tempPiece;
 					if(z==GAMESIZE-2)
 					{
@@ -131,13 +148,17 @@ public class GameBehavior : MonoBehaviour {
 						tempPiece = new PawnPiece(tempString,tempObject);
 					}
 					opponent.addPiece(tempPiece);
+					gamePieces[x][z]=tempPiece;
 				}
-				if(odd){
+				if(odd)
+				{
 					gameSpaces[x][z] = Instantiate (opposite,new Vector3(x,0,z),Quaternion.identity) as GameObject;
-				}else{
+				}
+				else
+				{
 					gameSpaces[x][z] = Instantiate (white,new Vector3(x,0,z),Quaternion.identity) as GameObject;
 				}
-				gameSpaces[x][z].transform.name=x+","+z;
+				gameSpaces[x][z].transform.name="Space"+x+","+z;
 				odd=!odd;
 			}
 			odd=!odd;
@@ -145,7 +166,8 @@ public class GameBehavior : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update () 
+	{
 		if( Input.GetMouseButtonDown(0) )
 		{
 			Ray ray = camera.ScreenPointToRay( Input.mousePosition );
@@ -153,7 +175,51 @@ public class GameBehavior : MonoBehaviour {
 			
 			if( Physics.Raycast( ray, out hit, 100 ) )
 			{
-				Debug.Log( hit.transform.gameObject.name );
+				string nameTemp = hit.transform.gameObject.name;
+				if(nameTemp.StartsWith("Piece"))
+				{
+					int xPos;
+					int zPos;
+					string[] tempTwo;
+					if(this.firstClickX == -1 && this.firstClickZ == -1)
+					{
+						nameTemp = nameTemp.Replace("Piece","");
+						tempTwo = nameTemp.Split(',');
+						xPos = System.Convert.ToInt32(tempTwo[0]);
+						zPos = System.Convert.ToInt32(tempTwo[1]);
+						this.firstClickX=xPos;
+						this.firstClickZ=zPos;
+						//gamePieces[xPos][zPos].getGameObject().SetActive(false);
+						Debug.Log("Piece Hit: x:"+tempTwo[0]+" z:"+tempTwo[1] );
+					}
+					else if(firstClickX != -1 && firstClickZ != -1)
+					{
+						nameTemp = nameTemp.Replace("Piece","");
+						tempTwo = nameTemp.Split(',');
+						xPos = System.Convert.ToInt32(tempTwo[0]);
+						zPos = System.Convert.ToInt32(tempTwo[1]);
+						//gamePieces[xPos][zPos].getGameObject().SetActive(false);
+						//Debug.Log( "Piece Hit: x:"+tempTwo[0]+" z:"+tempTwo[1] );
+					}
+				}
+				else if(nameTemp.StartsWith("Space"))
+				{	
+					if(this.firstClickX != -1 && this.firstClickZ != -1){
+						int xPos;
+						int zPos;
+						string[] tempTwo;
+						nameTemp = nameTemp.Replace("Space","");
+						tempTwo = nameTemp.Split(',');
+						xPos = System.Convert.ToInt32(tempTwo[0]);
+						zPos = System.Convert.ToInt32(tempTwo[1]);
+						GameObject tempGO = gamePieces[this.firstClickX][this.firstClickZ].getGameObject();
+						tempGO.transform.Translate(new Vector3(xPos-tempGO.transform.position.x,0,zPos-tempGO.transform.position.z));
+						//gameSpaces[xPos][zPos].SetActive(false);
+						Debug.Log( "Space Hit: x:"+tempTwo[0]+" z:"+tempTwo[1] );
+						this.firstClickX=-1;
+						this.firstClickZ=-1;
+					}
+				}
 			}
 		}
 	}

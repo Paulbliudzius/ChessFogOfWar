@@ -11,6 +11,10 @@ namespace ChessPiece
 		public Piece (){
 		}
 		public abstract bool[][] getAvailableMoves ();
+
+		public GameObject getGameObject(){
+			return pieceGO;
+		}
 		
 	}
 	public class PawnPiece : Piece

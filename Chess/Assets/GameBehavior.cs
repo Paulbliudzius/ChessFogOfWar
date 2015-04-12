@@ -9,6 +9,8 @@ public class GameBehavior : MonoBehaviour {
 
 	public Transform lights;
 
+	public Camera camera;
+
 	public GameObject white;
 
 	public GameObject opposite;
@@ -135,6 +137,7 @@ public class GameBehavior : MonoBehaviour {
 				}else{
 					gameSpaces[x][z] = Instantiate (white,new Vector3(x,0,z),Quaternion.identity) as GameObject;
 				}
+				gameSpaces[x][z].transform.name=x+","+z;
 				odd=!odd;
 			}
 			odd=!odd;
@@ -143,8 +146,15 @@ public class GameBehavior : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if ( Input.GetMouseButtonDown(0)){
-//			Debug.Log ("Click");
+		if( Input.GetMouseButtonDown(0) )
+		{
+			Ray ray = camera.ScreenPointToRay( Input.mousePosition );
+			RaycastHit hit;
+			
+			if( Physics.Raycast( ray, out hit, 100 ) )
+			{
+				Debug.Log( hit.transform.gameObject.name );
+			}
 		}
 	}
 }

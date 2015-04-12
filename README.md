@@ -12,4 +12,6 @@ Currently none
 ##Development Screenshots
 April 11, 2015: Very early in development. No unique pieces or sides. Currently getting the classes established for sides (player and opponent). Spaces were removed to be as an example of how the game will just be missing spaces to act as the fog since that space is not visible.
 ![screenshot](http://i.imgur.com/u3Umh75.png)
+April 12, 2015: Added a border to help recognize when a space would be missing on the board. The pieces are moved sporatically and no pieces were moved just to show the ability to move a piece to any space clicked. There is also added shapes to help indicate the differences in pieces as the classes have been completed and seperated. 
+![screenshot](http://i.imgur.com/B03cPra.png)
 

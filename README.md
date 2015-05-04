@@ -2,6 +2,9 @@
 
 A chess game with the adaption of Fog of War. You can only see the spaces on the gameboard that are moveable by your pieces. This creates for a completely different playing strategy than the original chess game. Developed in 3D to add an additional visual appeal. Open-source, feel free to collaborate!
 
+##Website
+http://www.lowbear.com
+
 ##Tools Used
 * Unity 3D 5.0
 

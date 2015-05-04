@@ -14,4 +14,6 @@ April 11, 2015: Very early in development. No unique pieces or sides. Currently 
 ![screenshot](http://i.imgur.com/u3Umh75.png)
 April 12, 2015: Added a border to help recognize when a space would be missing on the board. The pieces are moved sporatically and no pieces were moved just to show the ability to move a piece to any space clicked. There is also added shapes to help indicate the differences in pieces as the classes have been completed and seperated. 
 ![screenshot](http://i.imgur.com/B03cPra.png)
+May 4, 2015: Eveything should be working on one side of the game (not fully tested). Buttons added to allow one side of the game to be played, development for multiplayer to come soon. The board now only shows available spaces as well as only lets pieces to move legally. Also took some time to develop more recognizable pieces. Color to be added soon to tell teams.
+![screenshot](http://i.imgur.com/m5tEr3e.jpg)
 

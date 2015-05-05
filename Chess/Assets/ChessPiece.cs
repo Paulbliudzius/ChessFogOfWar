@@ -208,7 +208,7 @@ namespace ChessPiece
 			}
 			counter = 1;
 			while (x-counter>=0&&z-counter>=0) {
-				tempPiece = GameBehavior.GameBehavior.pieceOnBoard(x-counter,z+counter);
+				tempPiece = GameBehavior.GameBehavior.pieceOnBoard(x-counter,z-counter);
 				spaces[x-counter][z-counter] = true;
 				if(tempPiece!=null){
 					break;
@@ -393,13 +393,14 @@ namespace ChessPiece
 			}
 			counter = 1;
 			while (x-counter>=0&&z-counter>=0) {
-				tempPiece = GameBehavior.GameBehavior.pieceOnBoard(x-counter,z+counter);
+				tempPiece = GameBehavior.GameBehavior.pieceOnBoard(x-counter,z-counter);
 				spaces[x-counter][z-counter] = true;
 				if(tempPiece!=null){
 					break;
 				}
 				counter++;
 			}
+			counter = 1;
 			while (x+counter<GAMESIZE) {
 				tempPiece = GameBehavior.GameBehavior.pieceOnBoard(x+counter,z);
 				spaces[x+counter][z] = true;

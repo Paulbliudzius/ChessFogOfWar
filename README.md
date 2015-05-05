@@ -9,8 +9,7 @@ http://www.lowbear.com
 * Unity 3D 5.0
 
 ##Music Credits
-Currently none
-* later developerment...
+Froogle: http://www.frooglesound.com/
 
 ##Development Screenshots
 April 11, 2015: Very early in development. No unique pieces or sides. Currently getting the classes established for sides (player and opponent). Spaces were removed to be as an example of how the game will just be missing spaces to act as the fog since that space is not visible.

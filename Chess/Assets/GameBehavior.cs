@@ -11,10 +11,10 @@ namespace GameBehavior{
 		//TODO: Movable Camera that stays above 0 angle
 		public Camera camera;
 	
-		public GameObject white;
-	
-		public GameObject opposite;
-	
+		public GameObject spaces;
+
+		public Color teamColor;
+
 		public GameObject pawn;
 		public GameObject rook;
 		public GameObject knight;
@@ -106,6 +106,8 @@ namespace GameBehavior{
 							tempObject = Instantiate (pawn,new Vector3(x,0,z),Quaternion.identity) as GameObject;
 							tempPiece = new PawnPiece(tempString,tempObject,true);
 						}
+						Renderer rend = tempPiece.getGameObject().GetComponent<Renderer>();
+						rend.material.color = teamColor;
 						gamePieces[x][z]=tempPiece;
 					}else if(z>=GAMESIZE-2){
 						GameObject tempObject;
@@ -150,11 +152,13 @@ namespace GameBehavior{
 					}
 					if(odd)
 					{
-						gameSpaces[x][z] = Instantiate (opposite,new Vector3(x,0,z),Quaternion.identity) as GameObject;
+						gameSpaces[x][z] = Instantiate (spaces,new Vector3(x,0,z),Quaternion.identity) as GameObject;
+						gameSpaces[x][z].GetComponent<Renderer>().material.color=teamColor;
 					}
 					else
 					{
-						gameSpaces[x][z] = Instantiate (white,new Vector3(x,0,z),Quaternion.identity) as GameObject;
+						gameSpaces[x][z] = Instantiate (spaces,new Vector3(x,0,z),Quaternion.identity) as GameObject;
+						gameSpaces[x][z].GetComponent<Renderer>().material.color=Color.white;
 					}
 					gameSpaces[x][z].transform.name="Space"+x+","+z;
 					odd=!odd;
@@ -204,7 +208,9 @@ namespace GameBehavior{
 									}
 									GameObject tempGO = tempPiece.getGameObject ();
 									tempGO.transform.Translate (new Vector3 (xPos - firstClickX, 0, zPos - firstClickZ));
-									//gameSpaces[xPos][zPos].SetActive(false);
+									if(tempPiece is PawnPiece && zPos == GAMESIZE-1){
+										replacePawnForQueen(tempPiece,xPos,zPos);
+									}
 									Debug.Log ("Space Hit: x:" + tempTwo [0] + " z:" + tempTwo [1]);
 									cancelFirstClick ();
 									endPlayerTurn ();
@@ -232,8 +238,9 @@ namespace GameBehavior{
 									}
 									GameObject tempGO = tempPiece.getGameObject ();
 									tempGO.transform.Translate (new Vector3 (xPos - firstClickX, 0, zPos - firstClickZ));
-									//gameSpaces[xPos][zPos].SetActive(false);
-									Debug.Log ("Space Hit: x:" + tempTwo [0] + " z:" + tempTwo [1]);
+									if(tempPiece is PawnPiece && zPos == GAMESIZE-1){
+										replacePawnForQueen(tempPiece,xPos,zPos);
+									}
 									cancelFirstClick ();
 									endPlayerTurn ();
 								} else {
@@ -244,6 +251,20 @@ namespace GameBehavior{
 					}
 				}
 			}
+		}
+		public void replacePawnForQueen(Piece tempPiece,int xPos,int zPos){
+			GameObject tempGO = tempPiece.getGameObject ();
+			GameObject tempObject = Instantiate (queen,new Vector3(xPos,0,zPos),Quaternion.identity) as GameObject;
+			Piece tempQueen = new QueenPiece(tempPiece.name,tempObject,true);
+			string queenReplaceString = tempPiece.name.Replace ("Piece", "");
+			string[] queenTempString = queenReplaceString.Split (',');
+			int queenX = System.Convert.ToInt32 (queenTempString [0]);
+			int queenZ = System.Convert.ToInt32 (queenTempString [1]);
+			Renderer rend = tempQueen.getGameObject().GetComponent<Renderer>();
+			rend.material.color = teamColor;
+			gamePieces[queenX][queenZ] = tempQueen;
+			tempGO.transform.Translate (new Vector3 (-GAMESIZE, 0, -GAMESIZE));
+			tempGO.SetActive(false);
 		}
 		void OnGUI () {
 			// Make a background box
@@ -281,10 +302,6 @@ namespace GameBehavior{
 			
 		}
 		public static bool checkLegalMove(int newX,int newZ){
-			//TODO;
-			//TODO: Check if a piece is on that spot already
-			//TODO:Check if any pieces are in the way
-			//TODO:Do something about deleting piece if in way.
 			if (newX == firstClickX && newZ == firstClickZ) {
 				cancelFirstClick();
 				return false;

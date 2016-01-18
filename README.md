@@ -18,6 +18,6 @@ April 12, 2015: Added a border to help recognize when a space would be missing o
 ![screenshot](http://i.imgur.com/B03cPra.png)
 May 4, 2015: Eveything should be working on one side of the game (not fully tested). Buttons added to allow one side of the game to be played, development for multiplayer to come soon. The board now only shows available spaces as well as only lets pieces to move legally. Also took some time to develop more recognizable pieces. Color to be added soon to tell teams.
 ![screenshot](http://i.imgur.com/m5tEr3e.jpg)
-May 5, 2015: Got appoval from a very good artist to use his music in the game. Froogle. Credits in game will be added as development follows. Color is now changable to developer via eay colormap. Added for player later on. Pawn can now turn into queen. Next step is multiplayer.
+May 5, 2015: Got appoval from a very talented artist to use his music in the game. Froogle. Credits in game will be added as development follows. Color is now changable to developer via eay colormap. Added for player later on. Pawn can now turn into queen. Next step is multiplayer.
 ![screenshot](http://i.imgur.com/Gno6cva.png)
 
